@@ -25,6 +25,8 @@ router.register('tareas', SubProjectTarea)
 router.register('projects', Projects)
 router.register("subprojects", SubProject)
 
+# here we created the urls that the api was going to use
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', CreateUser.as_view()),

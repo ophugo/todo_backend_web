@@ -10,71 +10,13 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
+# The views are used for the api and they are in charged of sending the information and receiving it
 
-# Create your views here.
-
-# class Projects(APIView):
-#
-#     def get(self, request, id):
-#         project = Project.objects.filter(user=id)
-#         serializer = ProjectSerializer(project, many=True)
-#         return Response(serializer.data)
-#
-#
-# class SubProjects(APIView):
-#
-#     def get(self, request, id):
-#         sub_project = Sub_Projects.objects.filter(project=id)
-#         serializer = Sub_ProjectsSerializer(sub_project, many=True)
-#         return Response(serializer.data)
-
-# class Projecto(APIView):
-#
-#     def post(self, request):
-#         serializer = ProjectSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-# class SubProject(APIView):
-#
-#     def post(self, request):
-#         serializer = Sub_ProjectsSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# class SubProjectOptions(APIView):
-#
-#     def get(self, request, id):
-#         sub_project = Sub_Projects.objects.filter(pk=id)
-#         serializer = Sub_ProjectsSerializer(sub_project, many=True)
-#         return Response(serializer.data)
-#
-#     def delete(self, request, id):
-#         subproject = Sub_Projects.objects.filter(pk=id)
-#         subproject.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
-
-# class ProjectOptions(APIView):
-#     # permission_classes = [IsAuthenticated]
-#     # authentication_classes = (TokenAuthentication,)
-#
-#     def get(self, request, id):
-#         sub_project = Project.objects.filter(pk=id)
-#         serializer = Sub_ProjectsSerializer(sub_project, many=True)
-#         return Response(serializer.data)
-#
-#     def delete(self, request, id):
-#         subproject = Project.objects.filter(pk=id)
-#         subproject.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
-
+# this api view if in charge of creating the users
 class CreateUser(APIView):
 
     def post(self, request, format=None):
+        # userSerlializer get the json and transformes it to python
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -82,14 +24,18 @@ class CreateUser(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+# This view is in charge or getting the user id
 class GetId(APIView):
 
     def get(self, request, token):
+        # here we used the token to obtain the id of the person thats logged in
         user = Token.objects.get(key=token).user
+        # The information was obtained and serialized(all the serializers are in the serializer.py)
         serializer = UserIdSerializer(user)
+        # returns the json.id
         return Response(serializer.data)
 
+# the projects view is in charge of the main REST functions
 class Projects(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
@@ -100,7 +46,7 @@ class Projects(viewsets.ModelViewSet):
         serializer = ProjectSerializer(project, many=True)
         return Response(serializer.data)
 
-
+# the subProject view is in charge of the main REST functions
 class SubProject(viewsets.ModelViewSet):
     queryset = Sub_Projects.objects.all()
     serializer_class = Sub_ProjectsSerializer
@@ -111,10 +57,12 @@ class SubProject(viewsets.ModelViewSet):
         serializer = Sub_ProjectsSerializer(project, many=True)
         return Response(serializer.data)
 
+# specialized view for getting the projects by the user id
 class OneProject(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
+# specialized view for getting the subprojects by project id
 class SubProjectTarea(viewsets.ModelViewSet):
     queryset = Sub_Projects.objects.all()
     serializer_class = Sub_ProjectsSerializer
