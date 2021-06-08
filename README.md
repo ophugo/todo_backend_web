@@ -20,7 +20,6 @@ $ pip install djangorestframework
 $ pip install django-cors-headers 
 $ pip install psycopg2-binary
 
-
 $ createdb postgres
 
 $ python manage.py migrate
