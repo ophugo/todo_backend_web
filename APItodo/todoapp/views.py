@@ -114,3 +114,13 @@ class SubProject(viewsets.ModelViewSet):
 class OneProject(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+
+class SubProjectTarea(viewsets.ModelViewSet):
+    queryset = Sub_Projects.objects.all()
+    serializer_class = Sub_ProjectsSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        params = kwargs
+        project = Sub_Projects.objects.filter(project = params['pk'])
+        serializer = Sub_ProjectsSerializer(project, many=True)
+        return Response(serializer.data)

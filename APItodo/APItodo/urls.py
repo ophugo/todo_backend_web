@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from todoapp.views import Projects, SubProject, OneProject, CreateUser, GetId
+from todoapp.views import Projects, SubProject, OneProject, CreateUser, GetId, SubProjectTarea
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register('oneproject', OneProject)
+router.register('tareas', SubProjectTarea)
 router.register('projects', Projects)
 router.register("subprojects", SubProject)
 
