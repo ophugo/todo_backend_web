@@ -28,6 +28,7 @@ class Project(models.Model):
 class Sub_Projects(models.Model):
     title = models.CharField(max_length=100)
     date = models.DateField(auto_now_add=False, auto_now=False, blank=True, null=True)
+    completed = models.BooleanField(False)
     project = models.ForeignKey(Project, related_name='notes', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
